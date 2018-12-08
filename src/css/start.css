@@ -1,0 +1,84 @@
+.section_center {
+  background-image: url("https://www.wallpaperflare.com/static/908/683/702/abstract-dark-black-background-digital-art-wallpaper.jpg");
+  padding-top: 86px;
+  background-position: center center;
+  background-size: cover;
+}
+.section_center {
+  color: white;
+}
+.section_center .container{
+  max-width: 1340px;
+  padding-bottom: 40px;
+  height: 100%;
+}
+.backgraund{
+  position: absolute;
+  background-image: url(/public/img/backgraund.png);
+  height: 100%;
+}
+#particle-canvas {
+  width: 100%;
+  height: 100%;
+}
+#canvas, #text {
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}
+#text {
+  min-height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 8vmin;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#text h1 {
+	opacity: 0.9
+}
+.section_center .container>p{
+  font-size: 38px;
+}
+.section_center .container>p span{
+  color: #116f41;
+}
+svg{
+  width:100%;
+  height:100%;
+ 
+}
+#app{
+  width:100%;
+  height:100%;
+ 
+}
+
+#hitRing{
+ cursor:pointer;
+ -webkit-tap-highlight-color:transparent;
+}
+
+.disabled{
+ pointer-events:none;
+}
+
+.enabled{
+ pointer-events:auto;
+}
+.button_size{
+  top: 60px;
+  z-index: 0;
+  display: flex!important;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  font-size: 40px;
+  position: relative;
+}
