@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/blockeds",
+      "handler": "Blocked.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/blockeds/count",
+      "handler": "Blocked.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/blockeds/:id",
+      "handler": "Blocked.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/blockeds",
+      "handler": "Blocked.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/blockeds/:id",
+      "handler": "Blocked.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/blockeds/:id",
+      "handler": "Blocked.destroy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/blockeds/:id/relationships/:relation",
+      "handler": "Blocked.createRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/blockeds/:id/relationships/:relation",
+      "handler": "Blocked.updateRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/blockeds/:id/relationships/:relation",
+      "handler": "Blocked.destroyRelation",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
