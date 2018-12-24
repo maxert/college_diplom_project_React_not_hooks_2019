@@ -1,20 +1,27 @@
 @font-face {
   font-family: 'MyWebFont';
-  src: url("../fonts/10369.ttf")  format('truetype');/* Safari, Android, iOS */
+  src: url("../fonts/10369.ttf") format('truetype');
+  /* Safari, Android, iOS */
+}
+
+* {
+  outline: none;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family:"MyWebFont",sans-serif!important;
-  font-weight: 100!important;
+  font-family: "MyWebFont", sans-serif !important;
+  font-weight: 100 !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.header_menu .container{
+
+.header_menu .container {
   max-width: 1340px;
 }
-header{
+
+header {
   position: fixed;
   top: 0;
   width: 100%;
@@ -22,22 +29,28 @@ header{
   z-index: 999;
 }
 
-.header_menu a{
+.header_menu a {
   font-size: 20px;
-  color: white!important;
+  color: white !important;
 }
-body,html{
+
+body,
+html {
   height: 100%;
   width: 100%;
 }
-.navbar,#root,.wrapper{
+
+.navbar,
+#root,
+.wrapper {
   height: 100%;
 }
 
-.green{
+.green {
   background: black;
 }
-.ellipse{
+
+.ellipse {
   padding: 6px;
   display: flex;
   align-items: center;
@@ -49,37 +62,47 @@ body,html{
   border-radius: 30px;
   position: absolute;
 }
-.icon-shopping{
+
+.icon-shopping {
   position: relative;
 }
-.white_img{
+
+.white_img {
   filter: invert(1);
   width: 21px;
   height: 21px;
 }
-.link_logo:hover small{
+
+.link_logo:hover small {
   color: #00fa0c;
 }
-.link_logo small{
+
+.link_logo small {
   color: #116f41;
   font-weight: 900;
 }
-.link_logo small{
+
+.link_logo small {
   position: relative;
   left: 70px;
-bottom: 15px;
+  bottom: 15px;
 }
-#navbarSupportedContent .dropdown-menu{
+
+#navbarSupportedContent .dropdown-menu {
   background: black;
   border: 1px solid #116f41;
 }
-#navbarSupportedContent .navbar-nav li:hover{
+
+#navbarSupportedContent .navbar-nav li:hover {
   background: #116f41;
 }
-.dropdown-item:focus, .dropdown-item:hover{
-  background-color: #116f41!important;
+
+.dropdown-item:focus,
+.dropdown-item:hover {
+  background-color: #116f41 !important;
 }
-footer{
+
+footer {
   position: relative;
   height: 40px;
   width: 100%;

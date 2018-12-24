@@ -19,11 +19,17 @@
       "default": "",
       "type": "text"
     },
-    "cover": {
-      "model": "file",
-      "via": "related",
-      "plugin": "upload",
-      "required": false
+    "oglav": {
+      "default": "",
+      "type": "text"
+    },
+    "text_one": {
+      "default": "",
+      "type": "text"
+    },
+    "text_two": {
+      "default": "",
+      "type": "text"
     }
   }
 }

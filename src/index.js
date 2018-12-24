@@ -9,12 +9,13 @@ import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './footer';
 import Start from './start_container';
-
+import LOAD from 'react-svg';
 ReactDOM.render(
-<div className="wrapper">
-<Header />
-<Start></Start>
-<Footer></Footer>
-</div>
-, document.getElementById('root'));
+  <div className="wrapper">
+    <Header />
+    <Start />
+    <Footer />
+  </div>,
+  document.getElementById('root')
+);
 serviceWorker.unregister();

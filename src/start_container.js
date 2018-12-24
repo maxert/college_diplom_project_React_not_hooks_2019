@@ -1,47 +1,53 @@
-import React, { Component } from "react";
-import "./css/start.css";
-import DoorUI from "./js/button";
+import React, { Component } from 'react';
+import './css/start.css';
+import DoorUI from './js/button';
 import axios from 'axios';
-
-const blockedsId = 1; // Replace with one of your posts id.
+import SVG from 'react-svg';
 
 class Start extends Component {
   constructor(props) {
     super(props);
-    this.state={
-        masive:[]
-    }
+    this.state = {
+      masive: [],
+    };
     // Request API.
-axios
-.get(`http://localhost:1337/blockeds/${blockedsId}`)
-.then(response => {
-  // Handle success.
- this.setState({masive:response.data});
-})
-.catch(error => {
-  // Handle error.
-  console.log('An error occurred:', error);
-});
- }
- 
+  }
+  componentDidMount() {
+    axios
+      .get(`http://localhost:1337/blockeds/`)
+      .then(response => {
+        // Handle success.
+        this.setState({ masive: response.data });
+      })
+      .catch(error => {
+        // Handle error.
+        console.log('An error occurred:', error);
+      });
+  }
   render() {
-    
+    const listItems = this.state.masive.map((masive, i) => (
+      <div className="container" key={i}>
+        <h1>
+          <span>ComputerBOX </span>
+          {masive.oglav}
+        </h1>
+        <div className="d-flex button_size">
+          <p>{masive.text_one}</p>
+          <p>{masive.text_two}</p>
+        </div>
+        <div class="click_svg">
+          <DoorUI />
+          <div className="modal_computer">
+            <SVG src="../img/computer.svg" />
+          </div>
+        </div>
+      </div>
+    ));
+
     return (
       <div className="section_center">
-        <div className="backgraund" />
-        <div className="container">
-          <p>
-            <span>ComputerBOX </span>-&nbsp;это сервис,<br /> позволяющий быстро
-            собрать компьютер
-            <br />
-            по своим критериям.
-          </p>
-          <div className="d-flex button_size">
-            <p className="">Начинай собирать его прямо сейчас</p>
-            <p>{this.state.masive.title}</p>
-          </div>
-          <DoorUI></DoorUI>
-        </div>
+        <div className="background" />
+        {listItems}
       </div>
     );
   }
