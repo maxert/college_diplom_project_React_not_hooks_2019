@@ -3,7 +3,6 @@ import './css/start.css';
 import DoorUI from './js/button';
 import axios from 'axios';
 import SVG from 'react-svg';
-
 class Start extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +34,7 @@ class Start extends Component {
           <p>{masive.text_one}</p>
           <p>{masive.text_two}</p>
         </div>
-        <div class="click_svg">
+        <div className="click_svg">
           <DoorUI />
           <div className="modal_computer">
             <SVG src="../img/computer.svg" />

@@ -109,3 +109,23 @@ footer {
   box-shadow: 0px 0.0001px 20px 0.0001px #116f41;
   background: black;
 }
+
+.container {
+  max-width: 1340px !important;
+}
+
+.catalog>div>div {
+  margin: 15px 0px;
+  border-radius: 5px;
+  background: white;
+  color: black;
+}
+
+.catalog>div {
+  height: 100vh !important;
+  padding-bottom: 0px !important;
+}
+
+.text_catalog {
+  font-size: 24px
+}
