@@ -1,0 +1,47 @@
+{
+  "connection": "default",
+  "collectionName": "items",
+  "info": {
+    "name": "items",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "image": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "NameItem": {
+      "default": "",
+      "type": "text"
+    },
+    "TypeTitle": {
+      "default": "",
+      "type": "string"
+    },
+    "price": {
+      "default": 1,
+      "type": "integer",
+      "required": true,
+      "max": 999999
+    },
+    "new": {
+      "default": "",
+      "type": "text"
+    },
+    "top": {
+      "default": "",
+      "type": "text"
+    },
+    "SortItems": {
+      "default": "",
+      "type": "integer"
+    }
+  }
+}

@@ -18,6 +18,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={Start} />
         <Route path="/catalog" component={Catalog} />
+        <Route path="/admin" to="http://localhost:1337/admin" />
       </Switch>
       <Footer />
     </div>

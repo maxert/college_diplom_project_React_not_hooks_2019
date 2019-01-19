@@ -169,3 +169,20 @@ svg {
   opacity: 1;
   cursor: pointer;
 }
+
+.text_catalog {
+  border-bottom: 1px solid black;
+  padding-left: 0px;
+}
+
+.container_items {
+  margin-top: 20px;
+}
+
+.item_block {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  flex: 1;
+  max-width: 300px;
+  min-width: 260px;
+}

@@ -1,6 +1,6 @@
 {
   "host": "localhost",
-  "port": "${process.env.PORT || 1337}",
+  "port": 1337,
   "proxy": {
     "enabled": false
   },
@@ -8,7 +8,7 @@
     "enabled": false
   },
   "cron": {
-    "enabled": false
+    "enabled": true
   },
   "admin": {
     "autoOpen": false
