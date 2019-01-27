@@ -8,7 +8,9 @@ class Catalog extends Component {
       massiveTwo: [],
       value: 'http://localhost:1337/Items?_sort=top:ASC',
       valueFilter: 'http://localhost:1337/Items?_sort=top:ASC',
+      autobots: [],
     };
+
     this.sort = {
       textURl: 'http://localhost:1337/Items?_sort=price:DESC&SortItems=0',
       constURL: 'http://localhost:1337/Items',
@@ -19,6 +21,22 @@ class Catalog extends Component {
     this.handleChangeFilterTovar = this.handleChangeFilterTovar.bind(this);
     // Request API.
   }
+
+  isAutobot(allFilter) {
+    var tmp = {};
+    var massive = [];
+    for (let i = 0; i < allFilter.length; i++) {
+      massive.push(allFilter[i]);
+    }
+    return massive
+      .sort((a, b) => {
+        return a.id - b.id || b.rating.average - a.rating.average;
+      })
+      .filter(a => {
+        return a.TypeTitle in tmp ? 0 : (tmp[a.TypeTitle] = 1);
+      });
+  }
+
   handleChange(event) {
     this.setState({ value: event.target.value });
     for (var i = 0; i < this.state.massive.length; i++) {
@@ -34,6 +52,7 @@ class Catalog extends Component {
     }
     this.componentDidMount();
   }
+
   handleChangeFilterTovar(event) {
     this.setState({ valueFilter: event.target.value });
     for (var i = 0; i < this.state.massiveTwo.length; i++) {
@@ -73,6 +92,7 @@ class Catalog extends Component {
       .then(response => {
         // Handle success.
         this.setState({ massive: response.data });
+        this.setState({ autobots: this.isAutobot(this.state.massive) });
       })
       .catch(error => {
         // Handle error.
@@ -108,6 +128,12 @@ class Catalog extends Component {
         </div>
       </div>
     ));
+    const filterTovar = this.state.autobots.map((autobots, i) => (
+      <div className="checboxName" key={i}>
+        <input type="checkbox" id="scales" name={'scales' + autobots.proizvoditel} />
+        <label for={'scales' + autobots.proizvoditel}>{autobots.proizvoditel}</label>
+      </div>
+    ));
 
     return (
       <div className="section_center catalog">
@@ -120,6 +146,19 @@ class Catalog extends Component {
                 value={this.state.valueFilter}
                 onChange={this.handleChangeFilterTovar}
               />
+              <ul>
+                <li className="NameProizovoditel">
+                  <div className="text_top">Производитель</div>
+                  <div className="itemsSelect">
+                    <ul>
+                      <li>
+                        <div className="text_Top">Производитель</div>
+                        <div className="ItemsSelect">{filterTovar}</div>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
           <div className="col-md-9 ml-1 mr-1">

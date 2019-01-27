@@ -42,6 +42,66 @@
     "SortItems": {
       "default": "",
       "type": "integer"
+    },
+    "processor": {
+      "default": "",
+      "type": "text"
+    },
+    "graficChip": {
+      "default": "",
+      "type": "string"
+    },
+    "proizvoditel": {
+      "default": "",
+      "type": "string"
+    },
+    "shinu": {
+      "default": "",
+      "type": "string"
+    },
+    "memoryOZY": {
+      "default": "",
+      "type": "string"
+    },
+    "typeMemory": {
+      "default": "",
+      "type": "string"
+    },
+    "graficProcessor": {
+      "default": "",
+      "type": "string"
+    },
+    "razemy": {
+      "default": "",
+      "type": "text"
+    },
+    "naznachenye": {
+      "default": "",
+      "type": "text"
+    },
+    "Interfece": {
+      "default": "",
+      "type": "string"
+    },
+    "dopPower": {
+      "default": "",
+      "type": "text"
+    },
+    "PokolenyProcessor": {
+      "default": "",
+      "type": "text"
+    },
+    "KolovoPotokov": {
+      "default": "",
+      "type": "integer"
+    },
+    "Yadro": {
+      "default": "",
+      "type": "integer"
+    },
+    "Chastota": {
+      "default": "",
+      "type": "text"
     }
   }
 }

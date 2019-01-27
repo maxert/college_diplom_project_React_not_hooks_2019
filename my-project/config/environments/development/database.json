@@ -13,7 +13,8 @@
         "password": "password"
       },
       "options": {
-        "ssl": false
+        "ssl": false,
+        "debug": true
       }
     }
   }
