@@ -18,6 +18,14 @@
     "CategoryName": {
       "default": "",
       "type": "string"
+    },
+    "processor": {
+      "model": "processor",
+      "via": "category"
+    },
+    "Links": {
+      "default": "",
+      "type": "string"
     }
   }
 }

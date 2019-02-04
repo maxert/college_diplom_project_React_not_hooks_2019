@@ -186,3 +186,11 @@ svg {
   max-width: 300px;
   min-width: 260px;
 }
+
+.categorySelect {
+  display: none;
+}
+
+.categorySelect.active {
+  display: block;
+}

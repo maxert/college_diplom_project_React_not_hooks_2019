@@ -11,6 +11,8 @@ class Catalog extends Component {
       allText: [],
       checkbox: [],
       ItemsSort: [],
+      Catalog: [],
+      CatalogLinks: 'Videos',
     };
 
     this.sort = {
@@ -22,10 +24,14 @@ class Catalog extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeFilterTovar = this.handleChangeFilterTovar.bind(this);
+    this.getComponent = this.getComponent.bind(this);
     // Request API.
   }
   //Сортировка и тддд
-
+  filterCatalog(massive, valueCatalog) {
+    this.setState({ CatalogLinks: this.getVideocard(valueCatalog) });
+    return massive;
+  }
   checkbox(checkboxTrue, checkboxValue) {
     var massive = checkboxTrue.slice();
     // convert node list to an array
@@ -45,20 +51,7 @@ class Catalog extends Component {
       }
     });
   }
-  isFilter(allFilter) {
-    let tmp = {};
-    let massive = [];
-    for (let i = 0; i < allFilter.length; i++) {
-      massive.push(allFilter[i]);
-    }
-    return massive
-      .sort((a, b) => {
-        return a.id - b.id || b.rating.average - a.rating.average;
-      })
-      .filter(a => {
-        return a.TypeTitle in tmp ? 0 : (tmp[a.TypeTitle] = 1);
-      });
-  }
+
   isSortingMassive(SortingAll, target) {
     let massive = [];
     for (let i = 0; i < SortingAll.length; i++) {
@@ -111,76 +104,39 @@ class Catalog extends Component {
     console.log('checked array values:', checkedCheckboxesValues);
 
     this.setState({
-      massive: this.checkbox(this.state.massiveTwo, checkedCheckboxesValues),
+      massive: this.checkbox(this.state.massive, checkedCheckboxesValues),
+    });
+  }
+  getComponent(e, index) {
+    console.log(e);
+    console.log(index);
+  }
+  handleChangeFilterTovar() {
+    let categorySelect = document.getElementsByClassName('categorySelect')[0];
+    categorySelect.classList.add('active');
+  }
+
+  getVideocard(CatalogLinks) {
+    if (this.sort.isFalse === false) {
+      this.sort.isFalse = true;
+      var CatalogLinks = 'Videos';
+    }
+    return axios.get('http://localhost:1337/' + CatalogLinks).then(response => {
+      this.setState({ massive: response.data });
     });
   }
 
-  handleChangeFilterTovar(event) {
-    this.setState({ valueFilter: event.target.value });
-    for (var i = 0; i < this.state.massiveTwo.length; i++) {
-      if (Number(event.target.value) === this.state.massiveTwo[i].SortItems) {
-        this.sort.textURl = this.sort.constURL + '?_sort=top&SortItems=' + this.state.massiveTwo[i].SortItems;
-      }
-    }
-    this.componentDidMount();
-  }
-
-  filterfill() {
-    var filter_TitleName = document.getElementsByClassName('filter_TitleName')[0];
-    if (filter_TitleName) {
-      if (this.sort.isFalse === false) {
-        this.sort.isFalse = true;
-        for (var j = 0; j < this.state.massiveTwo.length; j++) {
-          var option = document.createElement('option');
-          for (var r = 0; r < this.state.massiveTwo.length; r++) {
-            if (j === this.state.massiveTwo[r].SortItems) {
-              filter_TitleName.appendChild(option);
-            }
-          }
-        }
-        for (var i = 0; i < filter_TitleName.children.length; i++) {
-          filter_TitleName.children[i].value = i;
-          for (var k = 0; k < this.state.massiveTwo.length; k++) {
-            if (Number(filter_TitleName.children[i].value) === this.state.massiveTwo[k].SortItems) {
-              filter_TitleName.children[i].innerHTML = this.state.massiveTwo[k].TypeTitle;
-            }
-          }
-        }
-      }
-    }
+  getCatalog() {
+    return axios.get('http://localhost:1337/categories').then(response => {
+      this.setState({ Catalog: response.data });
+    });
   }
 
   componentDidMount() {
-    axios
-      .get(this.sort.textURl)
-      .then(response => {
-        // Handle success.
-        this.setState({ massive: response.data });
-        this.setState({ allText: this.isFilter(this.state.massive) });
-      })
-      .catch(error => {
-        // Handle error.
-        console.log('An error occurred:', error);
-      });
+    axios.all([this.getVideocard(), this.getCatalog()]).then(axios.spread(function(massive, perms) {}));
   }
-  componentDidMountTwo() {
-    if (this.sort.isFalse === false) {
-      axios
-        .get(this.sort.constURL)
-        .then(response => {
-          // Handle success.
-          this.setState({ massiveTwo: response.data });
-          this.sort.isFalse = true;
-        })
-        .catch(error => {
-          // Handle error.
-          console.log('An error occurred:', error);
-        });
-    }
-  }
+
   render() {
-    this.componentDidMountTwo();
-    this.filterfill();
     const itemProduct = this.state.massive.map((massive, i) => (
       <div className="item_block m-2 p-3" key={i}>
         <img src={'../img/' + massive.image.name} className="img-fluid mt-2 mb-2" alt="Картинка" />
@@ -218,17 +174,21 @@ class Catalog extends Component {
         {allText.graficChip}
       </label>
     ));
+    const category = this.state.Catalog.map((massive, i) => (
+      <li key={i} data-links={massive.Links} onClick={e => this.getComponent(e, i)}>
+        {massive.CategoryName}
+      </li>
+    ));
     return (
       <div className="section_center catalog">
         <div className="container d-flex flex-row">
           <div className="col-md-3 ml-1 mr-1">
             <div className="col-md-12 mt-2 text_catalog">Фильтр</div>
             <div className="filter_tovar">
-              <select
-                className="filter_TitleName"
-                value={this.state.valueFilter}
-                onChange={this.handleChangeFilterTovar}
-              />
+              <div className="filter_TitleName" value={this.state.valueFilter} onClick={this.handleChangeFilterTovar}>
+                Видеокарты
+              </div>
+              <ul className="categorySelect">{category}</ul>
               <form ref={form => (this.form = form)} className="ItemsSelect">
                 <ul>
                   <li className="NameProizovoditel  d-flex flex-column">
