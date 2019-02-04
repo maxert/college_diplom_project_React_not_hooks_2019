@@ -1,0 +1,39 @@
+{
+  "connection": "default",
+  "collectionName": "itemsattributs",
+  "info": {
+    "name": "itemsattributs",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "new": {
+      "default": "",
+      "type": "integer"
+    },
+    "top": {
+      "default": "",
+      "type": "integer"
+    },
+    "SortItems": {
+      "default": "",
+      "type": "integer"
+    },
+    "price": {
+      "default": "",
+      "type": "integer"
+    },
+    "video": {
+      "model": "video",
+      "via": "itemsattributs"
+    },
+    "processor": {
+      "model": "processor",
+      "via": "itemsattributs"
+    }
+  }
+}

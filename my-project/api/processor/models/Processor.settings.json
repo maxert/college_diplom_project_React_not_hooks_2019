@@ -1,0 +1,53 @@
+{
+  "connection": "default",
+  "collectionName": "processors",
+  "info": {
+    "name": "processor",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "Title": {
+      "default": "",
+      "type": "string"
+    },
+    "familyprocessor": {
+      "default": "",
+      "type": "string"
+    },
+    "pokolenyyprocessor": {
+      "default": "",
+      "type": "string"
+    },
+    "kolovo_yader": {
+      "default": "",
+      "type": "integer"
+    },
+    "TypeMemory": {
+      "default": "",
+      "type": "string"
+    },
+    "chastotaout": {
+      "default": "",
+      "type": "string"
+    },
+    "proisvoditename": {
+      "model": "proisvoditename",
+      "via": "processor"
+    },
+    "itemsattributs": {
+      "model": "itemsattributs",
+      "via": "processor"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}

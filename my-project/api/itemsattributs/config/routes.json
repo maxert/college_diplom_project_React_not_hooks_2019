@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/itemsattributs",
+      "handler": "Itemsattributs.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/itemsattributs/count",
+      "handler": "Itemsattributs.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/itemsattributs/:id",
+      "handler": "Itemsattributs.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/itemsattributs",
+      "handler": "Itemsattributs.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/itemsattributs/:id",
+      "handler": "Itemsattributs.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/itemsattributs/:id",
+      "handler": "Itemsattributs.destroy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/itemsattributs/:id/relationships/:relation",
+      "handler": "Itemsattributs.createRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/itemsattributs/:id/relationships/:relation",
+      "handler": "Itemsattributs.updateRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/itemsattributs/:id/relationships/:relation",
+      "handler": "Itemsattributs.destroyRelation",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

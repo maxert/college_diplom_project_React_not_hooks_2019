@@ -1,0 +1,27 @@
+{
+  "connection": "default",
+  "collectionName": "proisvoditenames",
+  "info": {
+    "name": "proisvoditename",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "Name": {
+      "default": "",
+      "type": "string"
+    },
+    "video": {
+      "model": "video",
+      "via": "proisvoditename"
+    },
+    "processor": {
+      "model": "processor",
+      "via": "proisvoditename"
+    }
+  }
+}

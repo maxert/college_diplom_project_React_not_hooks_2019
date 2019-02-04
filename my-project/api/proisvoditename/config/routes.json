@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/proisvoditenames",
+      "handler": "Proisvoditename.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/proisvoditenames/count",
+      "handler": "Proisvoditename.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/proisvoditenames/:id",
+      "handler": "Proisvoditename.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/proisvoditenames",
+      "handler": "Proisvoditename.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/proisvoditenames/:id",
+      "handler": "Proisvoditename.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/proisvoditenames/:id",
+      "handler": "Proisvoditename.destroy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/proisvoditenames/:id/relationships/:relation",
+      "handler": "Proisvoditename.createRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/proisvoditenames/:id/relationships/:relation",
+      "handler": "Proisvoditename.updateRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/proisvoditenames/:id/relationships/:relation",
+      "handler": "Proisvoditename.destroyRelation",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "connection": "default",
+  "collectionName": "video",
+  "info": {
+    "name": "video",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "graficchips": {
+      "default": "",
+      "type": "string"
+    },
+    "ValueMemory": {
+      "default": "",
+      "type": "string"
+    },
+    "ShinuMemory": {
+      "default": "",
+      "type": "string"
+    },
+    "TypeMemory": {
+      "default": "",
+      "type": "string"
+    },
+    "Interface": {
+      "default": "",
+      "type": "string"
+    },
+    "DopPower": {
+      "default": "",
+      "type": "string"
+    },
+    "Razemy": {
+      "default": "",
+      "type": "string"
+    },
+    "category": {
+      "model": "category",
+      "via": "video"
+    },
+    "itemsattributs": {
+      "model": "itemsattributs",
+      "via": "video"
+    },
+    "image": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "Title": {
+      "default": "",
+      "type": "string"
+    },
+    "proisvoditename": {
+      "model": "proisvoditename",
+      "via": "video"
+    }
+  }
+}

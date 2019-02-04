@@ -6,25 +6,48 @@ class Catalog extends Component {
     this.state = {
       massive: [],
       massiveTwo: [],
-      value: 'http://localhost:1337/Items?_sort=top:ASC',
-      valueFilter: 'http://localhost:1337/Items?_sort=top:ASC',
-      autobots: [],
+      value: 'http://localhost:1337/Videos',
+      valueFilter: 'http://localhost:1337/Videos',
+      allText: [],
+      checkbox: [],
+      ItemsSort: [],
     };
 
     this.sort = {
-      textURl: 'http://localhost:1337/Items?_sort=price:DESC&SortItems=0',
-      constURL: 'http://localhost:1337/Items',
+      textURl: 'http://localhost:1337/Videos',
+      constURL: 'http://localhost:1337/Videos',
       isFalse: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
     this.handleChangeFilterTovar = this.handleChangeFilterTovar.bind(this);
     // Request API.
   }
+  //Сортировка и тддд
 
-  isAutobot(allFilter) {
-    var tmp = {};
-    var massive = [];
+  checkbox(checkboxTrue, checkboxValue) {
+    var massive = checkboxTrue.slice();
+    // convert node list to an array
+
+    // extract only the checked
+    let allCheckbox = document.getElementsByClassName('checboxName');
+
+    return massive.filter(input => {
+      for (var prop in input) {
+        for (let j = 0; j < allCheckbox.length; j++) {
+          if (input[prop] === checkboxValue[j]) {
+            return input[prop];
+          } else if (checkboxValue.length === 0) {
+            return input.SortItems === Number(allCheckbox[j].children[0].dataset.index);
+          }
+        }
+      }
+    });
+  }
+  isFilter(allFilter) {
+    let tmp = {};
+    let massive = [];
     for (let i = 0; i < allFilter.length; i++) {
       massive.push(allFilter[i]);
     }
@@ -36,21 +59,60 @@ class Catalog extends Component {
         return a.TypeTitle in tmp ? 0 : (tmp[a.TypeTitle] = 1);
       });
   }
+  isSortingMassive(SortingAll, target) {
+    let massive = [];
+    for (let i = 0; i < SortingAll.length; i++) {
+      massive.push(SortingAll[i]);
+    }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
     for (var i = 0; i < this.state.massive.length; i++) {
-      if (event.target.value === 'По новинкам') {
-        this.sort.textURl = this.sort.constURL + '?_sort=new&SortItems=' + this.state.massive[i].SortItems;
-      } else if (event.target.value === 'По популярности') {
-        this.sort.textURl = this.sort.constURL + '?_sort=top&SortItems=' + this.state.massive[i].SortItems;
-      } else if (event.target.value === 'По возростанию цены') {
-        this.sort.textURl = this.sort.constURL + '?_sort=price:DESC&SortItems=' + this.state.massive[i].SortItems;
+      if (target === 'По новинкам') {
+        this.setState({ value: target });
+        return massive.sort((a, b) => {
+          return b.itemsattributs.new - a.itemsattributs.new;
+        });
+      } else if (target === 'По популярности') {
+        return massive.sort((a, b) => {
+          this.setState({ value: target });
+          return b.itemsattributs.top - a.itemsattributs.top;
+        });
+      } else if (target === 'По возростанию цены') {
+        return massive.sort((a, b) => {
+          this.setState({ value: target });
+          return b.itemsattributs.price - a.itemsattributs.price || b.rating.average - a.rating.average;
+        });
       } else {
-        this.sort.textURl = this.sort.constURL + '?_sort=price:ASC&SortItems=' + this.state.massive[i].SortItems;
+        return massive.sort((a, b) => {
+          this.setState({ value: target });
+          return a.itemsattributs.price - b.itemsattributs.price || b.rating.average - a.rating.average;
+        });
       }
     }
-    this.componentDidMount();
+  }
+  //Клик
+  handleChange(event) {
+    this.setState({ massive: this.isSortingMassive(this.state.massive, event.target.value) });
+  }
+
+  handleChangeCheckbox(e) {
+    //  extract the node list from the form
+    //  it looks like an array, but lacks array methods
+    const name = this.form;
+
+    // convert node list to an array
+    const checkboxArray = Array.prototype.slice.call(name);
+
+    // extract only the checked checkboxes
+    const checkedCheckboxes = checkboxArray.filter(input => input.checked);
+    console.log('checked array:', checkedCheckboxes);
+
+    // use .map() to extract the value from each checked checkbox
+    const checkedCheckboxesValues = checkedCheckboxes.map(input => input.parentNode.innerText);
+    console.log('checked array values:', checkedCheckboxesValues);
+
+    this.setState({
+      massive: this.checkbox(this.state.massiveTwo, checkedCheckboxesValues),
+    });
   }
 
   handleChangeFilterTovar(event) {
@@ -62,6 +124,7 @@ class Catalog extends Component {
     }
     this.componentDidMount();
   }
+
   filterfill() {
     var filter_TitleName = document.getElementsByClassName('filter_TitleName')[0];
     if (filter_TitleName) {
@@ -86,13 +149,14 @@ class Catalog extends Component {
       }
     }
   }
+
   componentDidMount() {
     axios
       .get(this.sort.textURl)
       .then(response => {
         // Handle success.
         this.setState({ massive: response.data });
-        this.setState({ autobots: this.isAutobot(this.state.massive) });
+        this.setState({ allText: this.isFilter(this.state.massive) });
       })
       .catch(error => {
         // Handle error.
@@ -120,21 +184,40 @@ class Catalog extends Component {
     const itemProduct = this.state.massive.map((massive, i) => (
       <div className="item_block m-2 p-3" key={i}>
         <img src={'../img/' + massive.image.name} className="img-fluid mt-2 mb-2" alt="Картинка" />
-        <p>{massive.NameItem}</p>
+        <p>{massive.Title}</p>
         <div className="col-md-12">
           <span>Цена</span>
-          <span>{massive.price}</span>
+          <span>{massive.itemsattributs.price}</span>
           грн
         </div>
       </div>
     ));
-    const filterTovar = this.state.autobots.map((autobots, i) => (
-      <div className="checboxName" key={i}>
-        <input type="checkbox" id="scales" name={'scales' + autobots.proizvoditel} />
-        <label for={'scales' + autobots.proizvoditel}>{autobots.proizvoditel}</label>
-      </div>
+    const filterTovar = this.state.allText.map((allText, i) => (
+      <label className="checboxName" key={i}>
+        <input
+          type="checkbox"
+          onChange={this.handleChangeCheckbox}
+          data-index={allText.SortItems}
+          id="scales"
+          name={'name'}
+          className="mr-2"
+        />
+        {allText.proizvoditel}
+      </label>
     ));
-
+    const FilterGrafChips = this.state.allText.map((allText, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          onChange={this.handleChangeCheckbox}
+          data-index={allText.SortItems}
+          id="scales"
+          name={'name'}
+          className="mr-2"
+        />
+        {allText.graficChip}
+      </label>
+    ));
     return (
       <div className="section_center catalog">
         <div className="container d-flex flex-row">
@@ -146,19 +229,18 @@ class Catalog extends Component {
                 value={this.state.valueFilter}
                 onChange={this.handleChangeFilterTovar}
               />
-              <ul>
-                <li className="NameProizovoditel">
-                  <div className="text_top">Производитель</div>
-                  <div className="itemsSelect">
-                    <ul>
-                      <li>
-                        <div className="text_Top">Производитель</div>
-                        <div className="ItemsSelect">{filterTovar}</div>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              </ul>
+              <form ref={form => (this.form = form)} className="ItemsSelect">
+                <ul>
+                  <li className="NameProizovoditel  d-flex flex-column">
+                    <div className="text_Top">Производитель</div>
+                    {filterTovar}
+                  </li>
+                  <li className="NameChips  d-flex flex-column">
+                    <div className="text_Top">Графический чип</div>
+                    {FilterGrafChips}
+                  </li>
+                </ul>
+              </form>
             </div>
           </div>
           <div className="col-md-9 ml-1 mr-1">
