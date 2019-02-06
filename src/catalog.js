@@ -13,6 +13,8 @@ class Catalog extends Component {
       ItemsSort: [],
       Catalog: [],
       CatalogLinks: 'Videos',
+      selectedOption: null,
+      Proisvoditel: [],
     };
 
     this.sort = {
@@ -23,8 +25,7 @@ class Catalog extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeCheckbox = this.handleChangeCheckbox.bind(this);
-    this.handleChangeFilterTovar = this.handleChangeFilterTovar.bind(this);
-    this.getComponent = this.getComponent.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
     // Request API.
   }
   //Сортировка и тддд
@@ -37,19 +38,25 @@ class Catalog extends Component {
     // convert node list to an array
 
     // extract only the checked
+    if (checkboxValue.length === 0) {
+      return massive;
+    } else {
+      return massive.filter(input => {
+        for (var prop in checkboxValue) {
+          return input.proisvoditename.Name === checkboxValue[prop];
+        }
+        /*for (var prop in input) {
     let allCheckbox = document.getElementsByClassName('checboxName');
-
-    return massive.filter(input => {
-      for (var prop in input) {
         for (let j = 0; j < allCheckbox.length; j++) {
           if (input[prop] === checkboxValue[j]) {
             return input[prop];
           } else if (checkboxValue.length === 0) {
-            return input.SortItems === Number(allCheckbox[j].children[0].dataset.index);
+           
           }
         }
-      }
-    });
+      }*/
+      });
+    }
   }
 
   isSortingMassive(SortingAll, target) {
@@ -88,32 +95,15 @@ class Catalog extends Component {
   }
 
   handleChangeCheckbox(e) {
-    //  extract the node list from the form
-    //  it looks like an array, but lacks array methods
     const name = this.form;
-
-    // convert node list to an array
     const checkboxArray = Array.prototype.slice.call(name);
-
-    // extract only the checked checkboxes
     const checkedCheckboxes = checkboxArray.filter(input => input.checked);
     console.log('checked array:', checkedCheckboxes);
-
-    // use .map() to extract the value from each checked checkbox
     const checkedCheckboxesValues = checkedCheckboxes.map(input => input.parentNode.innerText);
     console.log('checked array values:', checkedCheckboxesValues);
-
     this.setState({
-      massive: this.checkbox(this.state.massive, checkedCheckboxesValues),
+      massive: this.checkbox(this.state.massiveTwo, checkedCheckboxesValues),
     });
-  }
-  getComponent(e, index) {
-    console.log(e);
-    console.log(index);
-  }
-  handleChangeFilterTovar() {
-    let categorySelect = document.getElementsByClassName('categorySelect')[0];
-    categorySelect.classList.add('active');
   }
 
   getVideocard(CatalogLinks) {
@@ -123,6 +113,7 @@ class Catalog extends Component {
     }
     return axios.get('http://localhost:1337/' + CatalogLinks).then(response => {
       this.setState({ massive: response.data });
+      this.setState({ massiveTwo: response.data });
     });
   }
 
@@ -131,11 +122,21 @@ class Catalog extends Component {
       this.setState({ Catalog: response.data });
     });
   }
-
-  componentDidMount() {
-    axios.all([this.getVideocard(), this.getCatalog()]).then(axios.spread(function(massive, perms) {}));
+  getProisvoditel() {
+    return axios.get('http://localhost:1337/proisvoditenames').then(response => {
+      this.setState({ Proisvoditel: response.data });
+    });
   }
 
+  componentDidMount() {
+    axios
+      .all([this.getVideocard(), this.getCatalog(), this.getProisvoditel()])
+      .then(axios.spread(function(massive, perms) {}));
+  }
+
+  handleClickOutside(event) {
+    this.setState({ CatalogLinks: this.getVideocard(event.target.value) });
+  }
   render() {
     const itemProduct = this.state.massive.map((massive, i) => (
       <div className="item_block m-2 p-3" key={i}>
@@ -148,17 +149,17 @@ class Catalog extends Component {
         </div>
       </div>
     ));
-    const filterTovar = this.state.allText.map((allText, i) => (
+    const filterTovar = this.state.Proisvoditel.map((massive, i) => (
       <label className="checboxName" key={i}>
         <input
           type="checkbox"
           onChange={this.handleChangeCheckbox}
-          data-index={allText.SortItems}
+          data-index={massive.Name}
           id="scales"
           name={'name'}
           className="mr-2"
         />
-        {allText.proizvoditel}
+        {massive.Name}
       </label>
     ));
     const FilterGrafChips = this.state.allText.map((allText, i) => (
@@ -174,21 +175,25 @@ class Catalog extends Component {
         {allText.graficChip}
       </label>
     ));
-    const category = this.state.Catalog.map((massive, i) => (
-      <li key={i} data-links={massive.Links} onClick={e => this.getComponent(e, i)}>
-        {massive.CategoryName}
-      </li>
-    ));
+    const catalog = this.state.Catalog.map((massive, i) => {
+      return (
+        <option value={massive.Links} key={i}>
+          {massive.CategoryName}
+        </option>
+      );
+    });
+
     return (
       <div className="section_center catalog">
         <div className="container d-flex flex-row">
           <div className="col-md-3 ml-1 mr-1">
-            <div className="col-md-12 mt-2 text_catalog">Фильтр</div>
-            <div className="filter_tovar">
-              <div className="filter_TitleName" value={this.state.valueFilter} onClick={this.handleChangeFilterTovar}>
-                Видеокарты
+            <div className="col-md-12 text_catalog">Фильтр</div>
+            <div className="filter_tovar mt-2">
+              <div className="filter_proisvoditel">
+                <select className="browser-default custom-select" onChange={this.handleClickOutside}>
+                  {catalog}
+                </select>
               </div>
-              <ul className="categorySelect">{category}</ul>
               <form ref={form => (this.form = form)} className="ItemsSelect">
                 <ul>
                   <li className="NameProizovoditel  d-flex flex-column">
@@ -204,14 +209,16 @@ class Catalog extends Component {
             </div>
           </div>
           <div className="col-md-9 ml-1 mr-1">
-            <div className="col-md-12 mt-2 text_catalog">
+            <div className="col-md-12 text_catalog d-flex">
               Каталог - <span>Видеокарты</span>
-              <select className="m-2 filter_top" value={this.state.value} onChange={this.handleChange}>
-                <option>По популярности</option>
-                <option>По новинкам</option>
-                <option>По возростанию цены</option>
-                <option>По убыванию цены</option>
-              </select>
+              <div className="Select_header mr-2 ml-2">
+                <select className="browser-default custom-select" value={this.state.value} onChange={this.handleChange}>
+                  <option>По популярности</option>
+                  <option>По новинкам</option>
+                  <option>По возростанию цены</option>
+                  <option>По убыванию цены</option>
+                </select>
+              </div>
             </div>
             <div className="col-md-12 container_items flex-wrap d-flex p-0">{itemProduct}</div>
           </div>

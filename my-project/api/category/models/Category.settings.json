@@ -12,7 +12,7 @@
   },
   "attributes": {
     "video": {
-      "model": "video",
+      "collection": "video",
       "via": "category"
     },
     "CategoryName": {
@@ -20,7 +20,7 @@
       "type": "string"
     },
     "processor": {
-      "model": "processor",
+      "collection": "processor",
       "via": "category"
     },
     "Links": {
