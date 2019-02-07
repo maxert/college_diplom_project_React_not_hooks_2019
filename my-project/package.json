@@ -22,8 +22,8 @@
     "knex": "latest",
     "lodash": "^4.17.5",
     "mysql": "2.16.0",
-    "strapi": "3.0.0-alpha.16",
-    "strapi-hook-bookshelf": "^3.0.0-alpha.16",
+    "strapi": "^3.0.0-alpha.21",
+    "strapi-hook-bookshelf": "^3.0.0-alpha.21",
     "strapi-hook-knex": "3.0.0-alpha.16"
   },
   "author": {

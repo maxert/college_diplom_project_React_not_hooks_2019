@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 class Catalog extends Component {
   constructor(props) {
     super(props);
     this.state = {
       massive: [],
       massiveTwo: [],
-      value: 'http://localhost:1337/Videos',
-      valueFilter: 'http://localhost:1337/Videos',
+      value: "http://localhost:1337/Videos",
+      valueFilter: "http://localhost:1337/Videos",
       allText: [],
       checkbox: [],
       ItemsSort: [],
       Catalog: [],
-      CatalogLinks: 'Videos',
+      CatalogLinks: "Videos",
       selectedOption: null,
-      Proisvoditel: [],
+      Proisvoditel: []
     };
 
     this.sort = {
-      textURl: 'http://localhost:1337/Videos',
-      constURL: 'http://localhost:1337/Videos',
-      isFalse: false,
+      textURl: "http://localhost:1337/Videos",
+      constURL: "http://localhost:1337/Videos",
+      isFalse: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -34,29 +34,18 @@ class Catalog extends Component {
     return massive;
   }
   checkbox(checkboxTrue, checkboxValue) {
-    var massive = checkboxTrue.slice();
-    // convert node list to an array
+    var ArraysMassive = checkboxValue;
+    var massive = checkboxTrue;
+    return massive.filter(item => {
+      for (var props in ArraysMassive) {
+        if (item.proisvoditename.Name.indexOf(ArraysMassive[props]) === 0) {
+          var massive = item;
+        }
+      }
+      return massive;
+    });
 
     // extract only the checked
-    if (checkboxValue.length === 0) {
-      return massive;
-    } else {
-      return massive.filter(input => {
-        for (var prop in checkboxValue) {
-          return input.proisvoditename.Name === checkboxValue[prop];
-        }
-        /*for (var prop in input) {
-    let allCheckbox = document.getElementsByClassName('checboxName');
-        for (let j = 0; j < allCheckbox.length; j++) {
-          if (input[prop] === checkboxValue[j]) {
-            return input[prop];
-          } else if (checkboxValue.length === 0) {
-           
-          }
-        }
-      }*/
-      });
-    }
   }
 
   isSortingMassive(SortingAll, target) {
@@ -66,66 +55,78 @@ class Catalog extends Component {
     }
 
     for (var i = 0; i < this.state.massive.length; i++) {
-      if (target === 'По новинкам') {
+      if (target === "По новинкам") {
         this.setState({ value: target });
         return massive.sort((a, b) => {
           return b.itemsattributs.new - a.itemsattributs.new;
         });
-      } else if (target === 'По популярности') {
+      } else if (target === "По популярности") {
         return massive.sort((a, b) => {
           this.setState({ value: target });
           return b.itemsattributs.top - a.itemsattributs.top;
         });
-      } else if (target === 'По возростанию цены') {
+      } else if (target === "По возростанию цены") {
         return massive.sort((a, b) => {
           this.setState({ value: target });
-          return b.itemsattributs.price - a.itemsattributs.price || b.rating.average - a.rating.average;
+          return (
+            b.itemsattributs.price - a.itemsattributs.price ||
+            b.rating.average - a.rating.average
+          );
         });
       } else {
         return massive.sort((a, b) => {
           this.setState({ value: target });
-          return a.itemsattributs.price - b.itemsattributs.price || b.rating.average - a.rating.average;
+          return (
+            a.itemsattributs.price - b.itemsattributs.price ||
+            b.rating.average - a.rating.average
+          );
         });
       }
     }
   }
   //Клик
   handleChange(event) {
-    this.setState({ massive: this.isSortingMassive(this.state.massive, event.target.value) });
+    this.setState({
+      massive: this.isSortingMassive(this.state.massive, event.target.value)
+    });
   }
 
   handleChangeCheckbox(e) {
     const name = this.form;
     const checkboxArray = Array.prototype.slice.call(name);
     const checkedCheckboxes = checkboxArray.filter(input => input.checked);
-    console.log('checked array:', checkedCheckboxes);
-    const checkedCheckboxesValues = checkedCheckboxes.map(input => input.parentNode.innerText);
-    console.log('checked array values:', checkedCheckboxesValues);
+    console.log("checked array:", checkedCheckboxes);
+    const checkedCheckboxesValues = checkedCheckboxes.map(
+      input => input.parentNode.innerText
+    );
+    console.log("checked array values:", checkedCheckboxesValues);
     this.setState({
-      massive: this.checkbox(this.state.massiveTwo, checkedCheckboxesValues),
+      massive: this.checkbox(this.state.massiveTwo, checkedCheckboxesValues)
     });
   }
 
   getVideocard(CatalogLinks) {
     if (this.sort.isFalse === false) {
       this.sort.isFalse = true;
-      var CatalogLinks = 'Videos';
+      var CatalogLinks = "Videos";
     }
-    return axios.get('http://localhost:1337/' + CatalogLinks).then(response => {
+    return axios.get("http://localhost:1337/" + CatalogLinks).then(response => {
       this.setState({ massive: response.data });
       this.setState({ massiveTwo: response.data });
     });
   }
 
   getCatalog() {
-    return axios.get('http://localhost:1337/categories').then(response => {
+    return axios.get("http://localhost:1337/categories").then(response => {
       this.setState({ Catalog: response.data });
     });
   }
   getProisvoditel() {
-    return axios.get('http://localhost:1337/proisvoditenames').then(response => {
-      this.setState({ Proisvoditel: response.data });
-    });
+    return axios
+      .get("http://localhost:1337/proisvoditenames")
+      .then(response => {
+        this.setState({ Proisvoditel: response.data });
+      });
   }
 
   componentDidMount() {
@@ -140,7 +141,11 @@ class Catalog extends Component {
   render() {
     const itemProduct = this.state.massive.map((massive, i) => (
       <div className="item_block m-2 p-3" key={i}>
-        <img src={'../img/' + massive.image.name} className="img-fluid mt-2 mb-2" alt="Картинка" />
+        <img
+          src={"../img/" + massive.image.name}
+          className="img-fluid mt-2 mb-2"
+          alt="Картинка"
+        />
         <p>{massive.Title}</p>
         <div className="col-md-12">
           <span>Цена</span>
@@ -156,7 +161,7 @@ class Catalog extends Component {
           onChange={this.handleChangeCheckbox}
           data-index={massive.Name}
           id="scales"
-          name={'name'}
+          name={"name"}
           className="mr-2"
         />
         {massive.Name}
@@ -169,7 +174,7 @@ class Catalog extends Component {
           onChange={this.handleChangeCheckbox}
           data-index={allText.SortItems}
           id="scales"
-          name={'name'}
+          name={"name"}
           className="mr-2"
         />
         {allText.graficChip}
@@ -190,7 +195,10 @@ class Catalog extends Component {
             <div className="col-md-12 text_catalog">Фильтр</div>
             <div className="filter_tovar mt-2">
               <div className="filter_proisvoditel">
-                <select className="browser-default custom-select" onChange={this.handleClickOutside}>
+                <select
+                  className="browser-default custom-select"
+                  onChange={this.handleClickOutside}
+                >
                   {catalog}
                 </select>
               </div>
@@ -212,7 +220,11 @@ class Catalog extends Component {
             <div className="col-md-12 text_catalog d-flex">
               Каталог - <span>Видеокарты</span>
               <div className="Select_header mr-2 ml-2">
-                <select className="browser-default custom-select" value={this.state.value} onChange={this.handleChange}>
+                <select
+                  className="browser-default custom-select"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                >
                   <option>По популярности</option>
                   <option>По новинкам</option>
                   <option>По возростанию цены</option>
@@ -220,7 +232,9 @@ class Catalog extends Component {
                 </select>
               </div>
             </div>
-            <div className="col-md-12 container_items flex-wrap d-flex p-0">{itemProduct}</div>
+            <div className="col-md-12 container_items flex-wrap d-flex p-0">
+              {itemProduct}
+            </div>
           </div>
         </div>
       </div>
