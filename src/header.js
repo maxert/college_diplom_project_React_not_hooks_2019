@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+
+
+
+
 
 class Header extends Component {
   constructor(props) {
@@ -11,17 +14,11 @@ class Header extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
-  componentDidMount() {
-    axios
-      .all([this.getBasket()])
-      .then(axios.spread(function(massive, perms) {}));
-      
-  }
+
   // Вызывается после удаления компонента из DOM
 
   // Вызывается до рендера
   componentWillMount() {
- 
     document.addEventListener("click", this.handleClickOutside, false);
   }
 
@@ -29,11 +26,9 @@ class Header extends Component {
     let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
     const domNode = document.querySelectorAll(".icon-shopping")[0];
     if (domNode.contains(event.target.parentNode) === false) {
-
-      if(TovarBasket.contains(event.target.parentNode) ===
-      false){
-      TovarBasket.classList.remove("active");
-      TovarBasket.classList.remove("active-left");
+      if (TovarBasket.contains(event.target.parentNode) === false) {
+        TovarBasket.classList.remove("active");
+        TovarBasket.classList.remove("active-left");
       }
     }
   }
@@ -49,17 +44,8 @@ class Header extends Component {
       ResultText.classList.remove("active");
     }
   }
-  getBasket() {
-    return axios.get("http://localhost:1337/baskets").then(response => {
-      this.setState({ basket: response.data });
-    });
-  }
 
   render() {
-   
-    const valueBasket = this.state.basket.map((input, i) => (
-      <span key={i}>{input.valueTovar}</span>
-    ));
     return (
       <header className="header_menu">
         <nav className="navbar navbar-expand-lg navbar-light green">
@@ -119,7 +105,9 @@ class Header extends Component {
                   className="white_img"
                   alt=""
                 />
-                <div className="ellipse">{valueBasket}</div>
+                <div className="ellipse">
+                  <span>0</span>
+                </div>
               </div>
             </div>
           </div>
@@ -127,14 +115,15 @@ class Header extends Component {
         <div className="tovar_basket" onClick={this.handleClickOutside}>
           <div className="result_Text m-2 price">
             <span>Итого:</span>
-            <span className="result green_color">0</span>
+            <span className="result green_color"></span>
             <span className="green_color">грн</span>
             <div className="basket_none">Ваша Корзина Пуста</div>
           </div>
+          <div className="container_tovar_basket" />
         </div>
       </header>
     );
   }
 }
 
-export default Header;
+export default  Header;

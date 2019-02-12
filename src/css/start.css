@@ -259,7 +259,7 @@ svg {
   font-size: 14px;
 }
 .image_product img{
-  max-width: 200px;
+  max-width:175px;
 min-height: 100px;
 }
 
@@ -297,7 +297,7 @@ min-height: 100px;
 }
 
 .text_item {
-  height: 100px;
+  min-height: 100px;
 }
 
 .tovar_basket {

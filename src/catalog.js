@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+
 class Catalog extends Component {
   constructor(props) {
     super(props);
@@ -26,14 +27,15 @@ class Catalog extends Component {
       familyprocessor: [],
       pokolenyyprocessor: [],
       basket: [],
-      constant:0
+      constant: 1
     };
 
     this.sort = {
       textURl: "http://localhost:1337/Videos",
       constURL: "http://localhost:1337/Videos",
       isFalse: false,
-      newMasive: []
+      newMasive: [],
+            price: 0
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -187,7 +189,7 @@ class Catalog extends Component {
   getVideocard(CatalogLinks) {
     if (this.sort.isFalse === false) {
       this.sort.isFalse = true;
-      var CatalogLinks = "Videos";
+      CatalogLinks = "Videos";
     }
     return axios.get("http://localhost:1337/" + CatalogLinks).then(response => {
       this.setState({ massive: response.data });
@@ -304,69 +306,55 @@ class Catalog extends Component {
   handleClickOutside(event) {
     this.setState({ CatalogLinks: this.getVideocard(event.target.value) });
   }
-  postCatalog(counter) {
-    return axios
-      .put(`http://localhost:1337/baskets/${1}`, {
-        valueTovar:counter
-      })
-      .then(response => {
-        // Handle success.
-        console.log(
-          "Well done, your post has been successfully updated: ",
-          response.data
-        );
-      })
-      .catch(error => {
-        // Handle error.
-        console.log("An error occurred:", error);
-      });
-  }
+
   getbasket() {
     return axios.get("http://localhost:1337/baskets").then(response => {
       this.setState({ baskets: response.data });
-     
     });
- 
   }
 
   clickFunction(e) {
-    
-    var Masive = [];
-    let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
     let ellipse = document.getElementsByClassName("ellipse")[0];
-    let ResultText=document.getElementsByClassName("result_Text ")[0];
-
+    this.setState({ constant: this.state.constant + 1 });
     
-    //Сохренение в базу данных
-    //this.postCatalog(TovarBasket.children.length);
-   
+    this.sort.price=this.sort.price + Number(e.currentTarget.parentNode.previousSibling.children[1].innerText);
+    let MassiveArray = [];
+    let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
+    let ContainerTovarBasket = document.getElementsByClassName(
+      "container_tovar_basket"
+    )[0];
+    var result = document.getElementsByClassName("result")[0];
+    let ResultText = document.getElementsByClassName("result_Text")[0];
 
-
-
-
-    TovarBasket.appendChild(
+    ContainerTovarBasket.appendChild(
       e.currentTarget.parentNode.parentNode.cloneNode(true)
     );
-    if(TovarBasket.children.length===1){
+    if (ContainerTovarBasket.children.length === 0) {
       ResultText.classList.add("active");
-      }else{
-        ResultText.classList.remove("active");
-      }
-      
-    let resultList = document.querySelectorAll(
-      ".tovar_basket .price.green_color"
-    );
-    resultList.forEach(element => {
-      Masive.push(Number(element.innerText));
+    } else {
+      ResultText.classList.remove("active");
+      ellipse.children[0].innerText = this.state.constant;
+      result.innerText = this.sort.price;
+      /*this.postCatalog(this.state.constant);*/
+    }
+    for (let i = 0; i < ContainerTovarBasket.children.length; i++) {
+      MassiveArray.push(ContainerTovarBasket.children[i].cloneNode(true));
+    }
+    var arr = [];
+    for (let i = 0, ref = (arr.length = MassiveArray.length); i < ref; i++) {
+      arr[i] = MassiveArray[i];
+    }
+    ContainerTovarBasket.innerHTML = "";
+    let tmp = [];
+    let resultat = arr.filter(a => {
+      return a.innerHTML in tmp ? 0 : (tmp[a.innerHTML] = 1);
     });
-    var result = Masive.reduce(function(a, b) {
-      return a + b;
+    resultat.forEach(element => {
+      ContainerTovarBasket.appendChild(element.cloneNode(true));
     });
-    document.getElementsByClassName("result")[0].innerText = result;
+
     TovarBasket.classList.remove("active-left");
     TovarBasket.classList.add("active");
-    ellipse.children[0].innerHTML = TovarBasket.children.length-1;
-    
   }
   render() {
     const itemProduct = this.state.massive.map((massive, i) => (
@@ -539,11 +527,9 @@ class Catalog extends Component {
         </option>
       );
     });
-const catalogValue = this.state.massive.map((massive,i)=>{
-  return(
-    <span key={i}>{massive.category.CategoryName}</span>
-  )
-})
+    const catalogValue = this.state.massive.map((massive, i) => {
+      return <span key={i}>{massive.category.CategoryName}</span>;
+    });
     return (
       <div className="section_center catalog ">
         <div className="container d-flex flex-row container_catalog">
