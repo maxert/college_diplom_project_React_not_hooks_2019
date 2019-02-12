@@ -50,7 +50,7 @@ class Start extends Component {
     ));
 
     return (
-      <div className="section_center">
+      <div className="section_center section_top">
         <div className="background" />
         {listItems}
       </div>
