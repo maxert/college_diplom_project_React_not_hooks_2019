@@ -13,7 +13,7 @@ class Start extends Component {
   }
   componentDidMount() {
     axios
-      .get(`http://localhost:1337/blockeds/`)
+      .get(`http://localhost:1337/blockeds?id=1`)
       .then(response => {
         // Handle success.
         this.setState({ masive: response.data });
@@ -23,6 +23,12 @@ class Start extends Component {
         console.log('An error occurred:', error);
       });
   }
+  componentDidUpdate(){
+  
+    const name=this.svg;
+    console.log(name);
+  
+   }
   render() {
     const listItems = this.state.masive.map((masive, i) => (
       <div className="container" key={i}>
@@ -37,7 +43,7 @@ class Start extends Component {
         <div className="click_svg">
           <DoorUI />
           <div className="modal_computer">
-            <SVG src="../img/computer.svg" />
+            <SVG ref={svg=>{this.svg=svg}} src="../img/computer.svg" />
           </div>
         </div>
       </div>

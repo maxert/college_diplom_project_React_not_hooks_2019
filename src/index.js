@@ -11,6 +11,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Catalog from './catalog';
 import Header from './header';
 import Footer from './footer';
+import About from './about';
+import Contacts from './contacts';
 ReactDOM.render(
   <BrowserRouter path="/">
     <div className="wrapper">
@@ -18,6 +20,8 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={Start} />
         <Route path="/catalog" component={Catalog} />
+        <Route path="/about" component={About} />
+        <Route path="/contacts" component={Contacts} />
         <Route path="/admin" to="http://localhost:1337/admin" />
       </Switch>
       <Footer />

@@ -19,13 +19,13 @@
       "default": "",
       "type": "string"
     },
-    "processor": {
-      "collection": "processor",
-      "via": "category"
-    },
     "Links": {
       "default": "",
       "type": "string"
+    },
+    "processor": {
+      "model": "processor",
+      "via": "category"
     }
   }
 }

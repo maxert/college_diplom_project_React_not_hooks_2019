@@ -1,0 +1,19 @@
+{
+  "connection": "default",
+  "collectionName": "baskets",
+  "info": {
+    "name": "basket",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "valueTovar": {
+      "default": "",
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/baskets",
+      "handler": "Basket.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/baskets/count",
+      "handler": "Basket.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/baskets/:id",
+      "handler": "Basket.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/baskets",
+      "handler": "Basket.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/baskets/:id",
+      "handler": "Basket.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/baskets/:id",
+      "handler": "Basket.destroy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/baskets/:id/relationships/:relation",
+      "handler": "Basket.createRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/baskets/:id/relationships/:relation",
+      "handler": "Basket.updateRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/baskets/:id/relationships/:relation",
+      "handler": "Basket.destroyRelation",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

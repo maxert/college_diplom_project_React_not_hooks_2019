@@ -14,13 +14,26 @@ class Catalog extends Component {
       Catalog: [],
       CatalogLinks: "Videos",
       selectedOption: null,
-      Proisvoditel: []
+      Proisvoditel: [],
+      isTrue: true,
+      TypeMassiv: [],
+      ValueMemory: [],
+      ShinuMemory: [],
+      Interface: [],
+      DopPower: [],
+      Razemy: [],
+      chastotaout: [],
+      familyprocessor: [],
+      pokolenyyprocessor: [],
+      basket: [],
+      constant:0
     };
 
     this.sort = {
       textURl: "http://localhost:1337/Videos",
       constURL: "http://localhost:1337/Videos",
-      isFalse: false
+      isFalse: false,
+      newMasive: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -33,17 +46,65 @@ class Catalog extends Component {
     this.setState({ CatalogLinks: this.getVideocard(valueCatalog) });
     return massive;
   }
-  checkbox(checkboxTrue, checkboxValue) {
+
+  checkbox(checkboxTrue, checkboxValue, valueNew, isTrue) {
     var ArraysMassive = checkboxValue;
     var massive = checkboxTrue;
-    return massive.filter(item => {
-      for (var props in ArraysMassive) {
-        if (item.proisvoditename.Name.indexOf(ArraysMassive[props]) === 0) {
-          var massive = item;
-        }
-      }
+    var massivElem = [];
+    if (checkboxValue.length === 0) {
       return massive;
-    });
+    }
+    if (isTrue === 1) {
+      let filters = massive.filter(item => {
+        for (var Newprops in item) {
+          if (Newprops === "proisvoditename") {
+            for (var props in ArraysMassive) {
+              if (Newprops === "proisvoditename") {
+                if (item[Newprops].Name.indexOf(ArraysMassive[props]) === 0) {
+                  massivElem.push(item);
+                  this.setState({ ItemsSort: massivElem });
+                  var massiveElemets = item;
+                }
+              }
+            }
+          }
+        }
+        return massiveElemets;
+      });
+
+      return filters;
+    } else {
+      if (valueNew.length === 0) {
+        let filters = massive.filter(item => {
+          for (var Newprops in item) {
+            if (typeof item[Newprops] === "string") {
+              for (var props in ArraysMassive) {
+                if (item[Newprops].indexOf(ArraysMassive[props]) === 0) {
+                  var massiveElemets = item;
+                }
+              }
+            }
+          }
+
+          return massiveElemets;
+        });
+        return filters;
+      } else {
+        let filtesss = valueNew.filter(item => {
+          for (var Newprops in item) {
+            if (typeof item[Newprops] === "string") {
+              for (var props in ArraysMassive) {
+                if (item[Newprops].indexOf(ArraysMassive[props]) === 0) {
+                  var massiveNew = item;
+                }
+              }
+            }
+          }
+          return massiveNew;
+        });
+        return filtesss;
+      }
+    }
 
     // extract only the checked
   }
@@ -92,8 +153,14 @@ class Catalog extends Component {
   }
 
   handleChangeCheckbox(e) {
-    const name = this.form;
-    const checkboxArray = Array.prototype.slice.call(name);
+    var massiveelem = [];
+    for (let i = 0; i < e.currentTarget.children.length; i++) {
+      if (e.currentTarget.children[i].nodeName === "LABEL") {
+        massiveelem.push(e.currentTarget.children[i].children[0]);
+      }
+    }
+
+    const checkboxArray = Array.prototype.slice.call(massiveelem);
     const checkedCheckboxes = checkboxArray.filter(input => input.checked);
     console.log("checked array:", checkedCheckboxes);
     const checkedCheckboxesValues = checkedCheckboxes.map(
@@ -101,7 +168,19 @@ class Catalog extends Component {
     );
     console.log("checked array values:", checkedCheckboxesValues);
     this.setState({
-      massive: this.checkbox(this.state.massiveTwo, checkedCheckboxesValues)
+      massive: this.checkbox(
+        this.state.massiveTwo,
+        checkedCheckboxesValues,
+        this.state.ItemsSort,
+        e.currentTarget.value
+      )
+    });
+  }
+
+  isfilterDelete(allMasive, value) {
+    var tmp = {};
+    return allMasive.filter(a => {
+      return a[value] in tmp ? 0 : (tmp[a[value]] = 1);
     });
   }
 
@@ -113,6 +192,75 @@ class Catalog extends Component {
     return axios.get("http://localhost:1337/" + CatalogLinks).then(response => {
       this.setState({ massive: response.data });
       this.setState({ massiveTwo: response.data });
+      console.log(this.state.massive);
+
+      this.state.massive.forEach(element => {
+        console.log(Object.keys(element));
+
+        this.setState({
+          allText: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[3]
+          )
+        });
+        this.setState({
+          TypeMassiv: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[6]
+          )
+        });
+
+        this.setState({
+          ValueMemory: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[4]
+          )
+        });
+
+        this.setState({
+          ShinuMemory: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[3]
+          )
+        });
+        this.setState({
+          Interface: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[7]
+          )
+        });
+        this.setState({
+          DopPower: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[9]
+          )
+        });
+        this.setState({
+          Razemy: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[9]
+          )
+        });
+
+        this.setState({
+          chastotaout: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[6]
+          )
+        });
+        this.setState({
+          familyprocessor: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[2]
+          )
+        });
+        this.setState({
+          pokolenyyprocessor: this.isfilterDelete(
+            this.state.massive,
+            Object.keys(element)[7]
+          )
+        });
+      });
     });
   }
 
@@ -131,26 +279,121 @@ class Catalog extends Component {
 
   componentDidMount() {
     axios
-      .all([this.getVideocard(), this.getCatalog(), this.getProisvoditel()])
+      .all([
+        this.getVideocard(),
+        this.getCatalog(),
+        this.getProisvoditel(),
+        this.getbasket()
+      ])
       .then(axios.spread(function(massive, perms) {}));
+  }
+
+  componentDidUpdate() {
+    let checboxName = document.querySelectorAll(".filter_all > li label");
+    if (checboxName) {
+      for (let i = 0; i < checboxName.length; i++) {
+        if (checboxName[i].innerText === "") {
+          checboxName[i].parentNode.classList.add("none");
+        } else {
+          checboxName[i].parentNode.classList.remove("none");
+        }
+      }
+    }
   }
 
   handleClickOutside(event) {
     this.setState({ CatalogLinks: this.getVideocard(event.target.value) });
   }
+  postCatalog(counter) {
+    return axios
+      .put(`http://localhost:1337/baskets/${1}`, {
+        valueTovar:counter
+      })
+      .then(response => {
+        // Handle success.
+        console.log(
+          "Well done, your post has been successfully updated: ",
+          response.data
+        );
+      })
+      .catch(error => {
+        // Handle error.
+        console.log("An error occurred:", error);
+      });
+  }
+  getbasket() {
+    return axios.get("http://localhost:1337/baskets").then(response => {
+      this.setState({ baskets: response.data });
+     
+    });
+ 
+  }
+
+  clickFunction(e) {
+    
+    var Masive = [];
+    let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
+    let ellipse = document.getElementsByClassName("ellipse")[0];
+    let ResultText=document.getElementsByClassName("result_Text ")[0];
+
+    
+    //Сохренение в базу данных
+    //this.postCatalog(TovarBasket.children.length);
+   
+
+
+
+
+    TovarBasket.appendChild(
+      e.currentTarget.parentNode.parentNode.cloneNode(true)
+    );
+    if(TovarBasket.children.length===1){
+      ResultText.classList.add("active");
+      }else{
+        ResultText.classList.remove("active");
+      }
+      
+    let resultList = document.querySelectorAll(
+      ".tovar_basket .price.green_color"
+    );
+    resultList.forEach(element => {
+      Masive.push(Number(element.innerText));
+    });
+    var result = Masive.reduce(function(a, b) {
+      return a + b;
+    });
+    document.getElementsByClassName("result")[0].innerText = result;
+    TovarBasket.classList.remove("active-left");
+    TovarBasket.classList.add("active");
+    ellipse.children[0].innerHTML = TovarBasket.children.length-1;
+    
+  }
   render() {
     const itemProduct = this.state.massive.map((massive, i) => (
-      <div className="item_block m-2 p-3" key={i}>
-        <img
-          src={"../img/" + massive.image.name}
-          className="img-fluid mt-2 mb-2"
-          alt="Картинка"
-        />
-        <p>{massive.Title}</p>
-        <div className="col-md-12">
-          <span>Цена</span>
-          <span>{massive.itemsattributs.price}</span>
-          грн
+      <div className="item_block d-flex flex-column m-2 p-3" key={i}>
+        <div className="image_product d-flex align-items-center justify-content-center">
+          <img
+            src={"../img/" + massive.image.name}
+            className="img-fluid mt-2 mb-2"
+            alt="Картинка"
+          />
+        </div>
+        <p className="text_item">{massive.Title}</p>
+        <div className="p-0 price_list">
+          <span className="mr-0">Цена:</span>
+          <span className="price green_color">
+            {massive.itemsattributs.price}
+          </span>
+          <span className="green_color">грн</span>
+        </div>
+        <div className="button_price d-flex">
+          <button
+            onClick={this.clickFunction.bind(this)}
+            className="btn-primary"
+          >
+            Купить
+          </button>
+          <button className="btn-success">Добавить в корзину</button>
         </div>
       </div>
     ));
@@ -158,7 +401,6 @@ class Catalog extends Component {
       <label className="checboxName" key={i}>
         <input
           type="checkbox"
-          onChange={this.handleChangeCheckbox}
           data-index={massive.Name}
           id="scales"
           name={"name"}
@@ -167,19 +409,129 @@ class Catalog extends Component {
         {massive.Name}
       </label>
     ));
-    const FilterGrafChips = this.state.allText.map((allText, i) => (
+    const FilterGrafChips = this.state.allText.map((input, i) => (
       <label className="checkboxName" key={i}>
         <input
           type="checkbox"
-          onChange={this.handleChangeCheckbox}
-          data-index={allText.SortItems}
+          data-index={input.graficchips}
           id="scales"
           name={"name"}
           className="mr-2"
         />
-        {allText.graficChip}
+        {input.graficchips}
       </label>
     ));
+    const filtersNew = this.state.TypeMassiv.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.TypeMemory}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.TypeMemory}
+      </label>
+    ));
+    const filtersThree = this.state.ValueMemory.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.ValueMemory}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.ValueMemory}
+      </label>
+    ));
+    const filtersfour = this.state.ShinuMemory.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.ShinuMemory}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.ShinuMemory}
+      </label>
+    ));
+    const filtersfive = this.state.Interface.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.Interface}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.Interface}
+      </label>
+    ));
+    const filterssix = this.state.DopPower.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.DopPower}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.DopPower}
+      </label>
+    ));
+    const filtersseven = this.state.Razemy.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.Razemy}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.Razemy}
+      </label>
+    ));
+
+    const filtersProsesorOne = this.state.chastotaout.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.chastotaout}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.chastotaout}
+      </label>
+    ));
+    const filtersProsesorTwo = this.state.familyprocessor.map((input, i) => (
+      <label className="checkboxName" key={i}>
+        <input
+          type="checkbox"
+          data-index={input.familyprocessor}
+          id="scales"
+          name={"name"}
+          className="mr-2"
+        />
+        {input.familyprocessor}
+      </label>
+    ));
+    const filtersProsesorThree = this.state.pokolenyyprocessor.map(
+      (input, i) => (
+        <label className="checkboxName" key={i}>
+          <input
+            type="checkbox"
+            data-index={input.pokolenyyprocessor}
+            id="scales"
+            name={"name"}
+            className="mr-2"
+          />
+          {input.pokolenyyprocessor}
+        </label>
+      )
+    );
     const catalog = this.state.Catalog.map((massive, i) => {
       return (
         <option value={massive.Links} key={i}>
@@ -187,10 +539,14 @@ class Catalog extends Component {
         </option>
       );
     });
-
+const catalogValue = this.state.massive.map((massive,i)=>{
+  return(
+    <span key={i}>{massive.category.CategoryName}</span>
+  )
+})
     return (
-      <div className="section_center catalog">
-        <div className="container d-flex flex-row">
+      <div className="section_center catalog ">
+        <div className="container d-flex flex-row container_catalog">
           <div className="col-md-3 ml-1 mr-1">
             <div className="col-md-12 text_catalog">Фильтр</div>
             <div className="filter_tovar mt-2">
@@ -202,23 +558,102 @@ class Catalog extends Component {
                   {catalog}
                 </select>
               </div>
-              <form ref={form => (this.form = form)} className="ItemsSelect">
-                <ul>
-                  <li className="NameProizovoditel  d-flex flex-column">
-                    <div className="text_Top">Производитель</div>
-                    {filterTovar}
-                  </li>
-                  <li className="NameChips  d-flex flex-column">
-                    <div className="text_Top">Графический чип</div>
-                    {FilterGrafChips}
-                  </li>
-                </ul>
-              </form>
+
+              <ul className="filter_all">
+                <li
+                  value={1}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameProizovoditel  flex-column"
+                >
+                  <div className="text_Top">Производитель:</div>
+                  {filterTovar}
+                </li>
+                <li
+                  value={2}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameChips  flex-column"
+                >
+                  <div className="text_Top">Графический чип:</div>
+                  {FilterGrafChips}
+                </li>
+                <li
+                  value={3}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameTypeMemory  flex-column"
+                >
+                  <div className="text_Top">Тип Памяти:</div>
+                  {filtersNew}
+                </li>
+                <li
+                  value={4}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameValueMemory  flex-column"
+                >
+                  <div className="text_Top">Объем памяти:</div>
+                  {filtersThree}
+                </li>
+                <li
+                  value={5}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameShinuMemory  flex-column"
+                >
+                  <div className="text_Top">Разрядность шины памяти:</div>
+                  {filtersfour}
+                </li>
+                <li
+                  value={6}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameInterface  flex-column"
+                >
+                  <div className="text_Top">Интерфейс:</div>
+                  {filtersfive}
+                </li>
+                <li
+                  value={7}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameDopPower flex-column"
+                >
+                  <div className="text_Top">Дполнительное питание:</div>
+                  {filterssix}
+                </li>
+                <li
+                  value={8}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameRazemy flex-column"
+                >
+                  <div className="text_Top">Разъем:</div>
+                  {filtersseven}
+                </li>
+                <li
+                  value={9}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="Namechastotaout  flex-column"
+                >
+                  <div className="text_Top">Частота:</div>
+                  {filtersProsesorOne}
+                </li>
+                <li
+                  value={10}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="NameFamily  flex-column"
+                >
+                  <div className="text_Top">Семейство процессора:</div>
+                  {filtersProsesorTwo}
+                </li>
+                <li
+                  value={11}
+                  onClick={value => this.handleChangeCheckbox(value)}
+                  className="Namepokolenyyprocessor  flex-column"
+                >
+                  <div className="text_Top">Поколение процессора:</div>
+                  {filtersProsesorThree}
+                </li>
+              </ul>
             </div>
           </div>
           <div className="col-md-9 ml-1 mr-1">
             <div className="col-md-12 text_catalog d-flex">
-              Каталог - <span>Видеокарты</span>
+              Каталог - {catalogValue}
               <div className="Select_header mr-2 ml-2">
                 <select
                   className="browser-default custom-select"
@@ -232,7 +667,12 @@ class Catalog extends Component {
                 </select>
               </div>
             </div>
-            <div className="col-md-12 container_items flex-wrap d-flex p-0">
+            <div
+              ref={div => {
+                this.div = div;
+              }}
+              className="col-md-12 container_items flex-wrap d-flex p-0"
+            >
               {itemProduct}
             </div>
           </div>

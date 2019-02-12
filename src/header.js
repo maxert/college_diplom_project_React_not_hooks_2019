@@ -1,8 +1,65 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      basket: [{ ValueTovar: 0 }]
+    };
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  componentDidMount() {
+    axios
+      .all([this.getBasket()])
+      .then(axios.spread(function(massive, perms) {}));
+      
+  }
+  // Вызывается после удаления компонента из DOM
+
+  // Вызывается до рендера
+  componentWillMount() {
+ 
+    document.addEventListener("click", this.handleClickOutside, false);
+  }
+
+  handleClickOutside(event) {
+    let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
+    const domNode = document.querySelectorAll(".icon-shopping")[0];
+    if (domNode.contains(event.target.parentNode) === false) {
+
+      if(TovarBasket.contains(event.target.parentNode) ===
+      false){
+      TovarBasket.classList.remove("active");
+      TovarBasket.classList.remove("active-left");
+      }
+    }
+  }
+  clickResult(e) {
+    let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
+    let ResultText = document.getElementsByClassName("result_Text ")[0];
+
+    TovarBasket.classList.remove("active-left");
+    TovarBasket.classList.add("active");
+    if (TovarBasket.children.length === 1) {
+      ResultText.classList.add("active");
+    } else {
+      ResultText.classList.remove("active");
+    }
+  }
+  getBasket() {
+    return axios.get("http://localhost:1337/baskets").then(response => {
+      this.setState({ basket: response.data });
+    });
+  }
+
   render() {
+   
+    const valueBasket = this.state.basket.map((input, i) => (
+      <span key={i}>{input.valueTovar}</span>
+    ));
     return (
       <header className="header_menu">
         <nav className="navbar navbar-expand-lg navbar-light green">
@@ -24,7 +81,10 @@ class Header extends Component {
               <span className="navbar-toggler-icon" />
             </button>
 
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <div
+              className="collapse navbar-collapse"
+              id="navbarSupportedContent"
+            >
               <ul className="navbar-nav d-flex justify-content-around w-100 ml-4 mr-4">
                 <li className="nav-item active">
                   <Link className="nav-link" to="/">
@@ -37,12 +97,12 @@ class Header extends Component {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="#">
+                  <Link className="nav-link" to="/about">
                     О Нас
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link disabled" to="#">
+                  <Link className="nav-link" to="/contacts">
                     Контакты
                   </Link>
                 </li>
@@ -50,15 +110,28 @@ class Header extends Component {
               <div className="ml-4 mr-4 icon-phone">
                 <img src="../img/phone.png" className="white_img" alt="" />
               </div>
-              <div className="ml-4 mr-4 icon-shopping">
-                <img src="../img/shopping-cart.png" className="white_img" alt="" />
-                <div className="ellipse">
-                  <span>1</span>
-                </div>
+              <div
+                className="ml-4 mr-4 icon-shopping"
+                onClick={this.clickResult.bind(this)}
+              >
+                <img
+                  src="../img/shopping-cart.png"
+                  className="white_img"
+                  alt=""
+                />
+                <div className="ellipse">{valueBasket}</div>
               </div>
             </div>
           </div>
         </nav>
+        <div className="tovar_basket" onClick={this.handleClickOutside}>
+          <div className="result_Text m-2 price">
+            <span>Итого:</span>
+            <span className="result green_color">0</span>
+            <span className="green_color">грн</span>
+            <div className="basket_none">Ваша Корзина Пуста</div>
+          </div>
+        </div>
       </header>
     );
   }

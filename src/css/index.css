@@ -16,7 +16,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+.filter_all li{
+  display: flex;
+}
+.none{
+  display:none!important;
+}
 .header_menu .container {
   max-width: 1340px;
 }
@@ -43,7 +48,7 @@ html {
 .navbar,
 #root,
 .wrapper {
-  height: 100%;
+  height: auto;
 }
 
 .green {
@@ -53,9 +58,10 @@ html {
 .ellipse {
   padding: 6px;
   display: flex;
+  height: 25px;
+  width: 25px;
   align-items: center;
   justify-content: center;
-  height: 20px;
   bottom: 10px;
   left: 10px;
   background: white;
@@ -115,16 +121,13 @@ footer {
 }
 
 .catalog>div>div {
-  margin: 15px 0px;
+
   border-radius: 5px;
   background: white;
   color: black;
 }
 
-.catalog>div {
-  height: 100vh !important;
-  padding-bottom: 0px !important;
-}
+
 
 .text_catalog {
   font-size: 24px

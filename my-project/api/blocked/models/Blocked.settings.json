@@ -30,6 +30,26 @@
     "text_two": {
       "default": "",
       "type": "text"
+    },
+    "text_three": {
+      "default": "",
+      "type": "text"
+    },
+    "text_four": {
+      "default": "",
+      "type": "text"
+    },
+    "text_five": {
+      "default": "",
+      "type": "text"
+    },
+    "text_seven": {
+      "default": "",
+      "type": "text"
+    },
+    "text_six": {
+      "default": "",
+      "type": "text"
     }
   }
 }
