@@ -126,7 +126,9 @@ footer {
   background: white;
   color: black;
 }
-
+.icon-phone,.icon-shopping{
+  cursor: pointer;
+}
 
 
 .text_catalog {
