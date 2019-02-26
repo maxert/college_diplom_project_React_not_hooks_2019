@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/startlinks",
+      "handler": "Startlinks.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/startlinks/count",
+      "handler": "Startlinks.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/startlinks/:id",
+      "handler": "Startlinks.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/startlinks",
+      "handler": "Startlinks.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/startlinks/:id",
+      "handler": "Startlinks.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/startlinks/:id",
+      "handler": "Startlinks.destroy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/startlinks/:id/relationships/:relation",
+      "handler": "Startlinks.createRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/startlinks/:id/relationships/:relation",
+      "handler": "Startlinks.updateRelation",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/startlinks/:id/relationships/:relation",
+      "handler": "Startlinks.destroyRelation",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

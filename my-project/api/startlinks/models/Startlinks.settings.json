@@ -1,0 +1,19 @@
+{
+  "connection": "default",
+  "collectionName": "startlinks",
+  "info": {
+    "name": "startlinks",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "linkspost": {
+      "default": "",
+      "type": "string"
+    }
+  }
+}

@@ -35,7 +35,7 @@ class Catalog extends Component {
       constURL: "http://localhost:1337/Videos",
       isFalse: false,
       newMasive: [],
-            price: 0
+      price: 0
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -185,6 +185,11 @@ class Catalog extends Component {
       return a[value] in tmp ? 0 : (tmp[a[value]] = 1);
     });
   }
+  getlinks() {
+    return axios.get("http://localhost:1337/startlinks/1").then(response => {
+      this.setState({ CatalogLinks: this.getVideocard(response.data.linkspost)});
+    });
+  }
 
   getVideocard(CatalogLinks) {
     if (this.sort.isFalse === false) {
@@ -285,7 +290,8 @@ class Catalog extends Component {
         this.getVideocard(),
         this.getCatalog(),
         this.getProisvoditel(),
-        this.getbasket()
+        this.getbasket(),
+        this.getlinks()
       ])
       .then(axios.spread(function(massive, perms) {}));
   }
@@ -316,8 +322,10 @@ class Catalog extends Component {
   clickFunction(e) {
     let ellipse = document.getElementsByClassName("ellipse")[0];
     this.setState({ constant: this.state.constant + 1 });
-    
-    this.sort.price=this.sort.price + Number(e.currentTarget.parentNode.previousSibling.children[1].innerText);
+
+    this.sort.price =
+      this.sort.price +
+      Number(e.currentTarget.parentNode.previousSibling.children[1].innerText);
     let MassiveArray = [];
     let TovarBasket = document.getElementsByClassName("tovar_basket")[0];
     let ContainerTovarBasket = document.getElementsByClassName(

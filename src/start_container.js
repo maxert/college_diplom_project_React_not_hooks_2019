@@ -3,6 +3,8 @@ import './css/start.css';
 import DoorUI from './js/button';
 import axios from 'axios';
 import SVG from 'react-svg';
+
+
 class Start extends Component {
   constructor(props) {
     super(props);
@@ -25,8 +27,7 @@ class Start extends Component {
   }
   componentDidUpdate(){
   
-    const name=this.svg;
-    console.log(name);
+   
   
    }
   render() {
@@ -43,7 +44,7 @@ class Start extends Component {
         <div className="click_svg">
           <DoorUI />
           <div className="modal_computer">
-            <SVG ref={svg=>{this.svg=svg}} src="../img/computer.svg" />
+            <SVG src="../img/computer.svg" />
           </div>
         </div>
       </div>

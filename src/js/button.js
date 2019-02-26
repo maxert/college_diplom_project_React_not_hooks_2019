@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
-import { TweenMax, TimelineMax, Sine, Elastic } from 'gsap/TweenMax';
-import { debounce } from 'throttle-debounce';
+import React, { Component } from "react";
+import { TweenMax, TimelineMax, Sine, Elastic } from "gsap/TweenMax";
+import { debounce } from "throttle-debounce";
+import axios from "axios";
 
 class DoorUI extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: true,
+      open: true
     };
     this.tl = new TimelineMax({});
     this.click = this.click.bind();
@@ -15,13 +16,22 @@ class DoorUI extends Component {
   onLoaded() {}
 
   click = () => {
-    var SvgAnimation = document.getElementsByClassName('svg_animation')[0];
-    SvgAnimation.classList.add('active');
+    var SvgAnimation = document.getElementsByClassName("svg_animation")[0];
+    SvgAnimation.classList.add("active");
     debounce(1000, () => {
-      SvgAnimation.style.display = 'none';
-      let svgBlock = document.getElementsByClassName('modal_computer')[0];
-      svgBlock.classList.add('active');
-      svgBlock.style.display = 'block';
+      SvgAnimation.style.display = "none";
+      let svgBlock = document.getElementsByClassName("modal_computer")[0];
+      svgBlock.classList.add("active");
+      svgBlock.style.display = "block";
+      let svgDocument = document.querySelectorAll(
+        ".modal_computer.active svg g"
+      );
+      svgDocument.forEach(element => {
+        element.addEventListener("click", () => {
+          console.log(element.value);
+          document.location.href = element.attributes[1].nodeValue;
+        });
+      });
     })();
   };
 
@@ -32,108 +42,108 @@ class DoorUI extends Component {
   componentDidUpdate = e => {
     var tl = new TimelineMax({
       onComplete: this.setBtnEnabled,
-      onCompleteParams: [true],
+      onCompleteParams: [true]
     }).timeScale(1.8);
     tl.staggerTo(
-      '.radialGroup g',
+      ".radialGroup g",
       1,
       {
-        fill: this.state.open ? '#41E969' : '#F70048',
+        fill: this.state.open ? "#41E969" : "#F70048"
       },
       0.2
     )
       .to(
-        '.bar',
+        ".bar",
         0.4,
         {
           strokeWidth: this.state.open ? 0 : 4,
-          transformOrigin: '50% 50%',
-          stroke: this.state.open ? '#41E969' : '#F70048',
-          ease: Sine.easeOut,
+          transformOrigin: "50% 50%",
+          stroke: this.state.open ? "#41E969" : "#F70048",
+          ease: Sine.easeOut
         },
         0
       )
       .to(
-        '.ring',
+        ".ring",
         0.4,
         {
-          stroke: this.state.open ? '#41E969' : '#F70048',
+          stroke: this.state.open ? "#41E969" : "#F70048"
         },
         0
       )
       .staggerTo(
-        '.radialGroup g',
+        ".radialGroup g",
         0.3,
         {
           cycle: {
-            alpha: [0],
+            alpha: [0]
           },
           repeat: 1,
           ease: Sine.easeOut,
-          yoyoEase: Sine.easeOut,
+          yoyoEase: Sine.easeOut
         },
         0.1,
         0
       )
       .staggerTo(
-        '.radialGroup g path',
+        ".radialGroup g path",
         0.3,
         {
           cycle: {
-            scale: [0.95],
+            scale: [0.95]
           },
           repeat: 1,
-          svgOrigin: '400 300',
+          svgOrigin: "400 300",
           ease: Sine.easeIn,
-          yoyoEase: Sine.easeOut, //Elastic.easeOut.config(0.5,0.75)
+          yoyoEase: Sine.easeOut //Elastic.easeOut.config(0.5,0.75)
         },
         0.0163,
         0.1
       )
       .to(
-        '.radialGroup',
+        ".radialGroup",
         1,
         {
-          svgOrigin: '400 300',
+          svgOrigin: "400 300",
           ease: Elastic.easeOut.config(0.5, 0.75),
-          rotation: '+=36',
+          rotation: "+=36"
         },
         0
       )
       .to(
-        '.icon',
+        ".icon",
         1,
         {
-          svgOrigin: '400 300',
-          transformOrigin: '50% 50%',
+          svgOrigin: "400 300",
+          transformOrigin: "50% 50%",
           ease: Sine.easeOut,
           //ease:Elastic.easeOut.config(0.5,0.75),
-          rotation: this.state.open ? '+=0' : '-=180',
+          rotation: this.state.open ? "+=0" : "-=180"
         },
         0.1
       )
       .to(
-        '.icon',
+        ".icon",
         0.4,
         {
           scale: 0.9,
-          svgOrigin: '400 300',
-          transformOrigin: '50% 50%',
+          svgOrigin: "400 300",
+          transformOrigin: "50% 50%",
           ease: Sine.easeOut,
           yoyoEase: Elastic.easeOut.config(0.5, 0.75),
-          repeat: 1,
+          repeat: 1
         },
         0
       );
   };
   setBtnEnabled = e => {
-    this.refs.hitBtn.setAttribute('class', !e ? 'disabled' : 'enabled');
+    this.refs.hitBtn.setAttribute("class", !e ? "disabled" : "enabled");
   };
 
   toggle = e => {
     this.setBtnEnabled(false);
     this.setState({
-      open: !this.state.open,
+      open: !this.state.open
     });
   };
 
@@ -147,8 +157,22 @@ class DoorUI extends Component {
       >
         <title>uiDoorLock</title>
         <defs>
-          <circle id="ring" cx="400" cy="300" r="23" strokeMiterlimit="10" strokeWidth="4" />
-          <circle id="hitRing" cx="400" cy="300" r="100" strokeMiterlimit="10" strokeWidth="4" />
+          <circle
+            id="ring"
+            cx="400"
+            cy="300"
+            r="23"
+            strokeMiterlimit="10"
+            strokeWidth="4"
+          />
+          <circle
+            id="hitRing"
+            cx="400"
+            cy="300"
+            r="100"
+            strokeMiterlimit="10"
+            strokeWidth="4"
+          />
           <clipPath id="ringMask">
             <use xlinkHref="#ring" fill="red" />
           </clipPath>
@@ -204,7 +228,12 @@ class DoorUI extends Component {
           </g>
         </g>
         <g className="icon">
-          <use xlinkHref="#ring" stroke="#41E969" fill="none" className="ring" />
+          <use
+            xlinkHref="#ring"
+            stroke="#41E969"
+            fill="none"
+            className="ring"
+          />
           <g className="lockBar" clipPath="url(#ringMask)">
             <line
               className="bar"
@@ -219,7 +248,13 @@ class DoorUI extends Component {
             />
           </g>
         </g>
-        <use xlinkHref="#hitRing" stroke="none" fill="transparent" onClick={this.toggle} ref="hitBtn" />
+        <use
+          xlinkHref="#hitRing"
+          stroke="none"
+          fill="transparent"
+          onClick={this.toggle}
+          ref="hitBtn"
+        />
       </svg>
     );
   }

@@ -13,6 +13,7 @@ import Header from './header';
 import Footer from './footer';
 import About from './about';
 import Contacts from './contacts';
+
 ReactDOM.render(
   <BrowserRouter path="/">
     <div className="wrapper">
@@ -26,7 +27,8 @@ ReactDOM.render(
       </Switch>
       <Footer />
     </div>
-  </BrowserRouter>,
+  </BrowserRouter >,
   document.getElementById('root')
 );
+
 serviceWorker.unregister();
