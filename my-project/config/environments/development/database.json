@@ -7,7 +7,7 @@
         "client": "mysql",
         "host": "127.0.0.1",
         "srv": false,
-        "port": 3305,
+        "port": 3306,
         "database": "computerDB",
         "username": "root",
         "password": "password"

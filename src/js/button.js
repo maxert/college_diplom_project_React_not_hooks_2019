@@ -28,15 +28,34 @@ class DoorUI extends Component {
       );
       svgDocument.forEach(element => {
         element.addEventListener("click", () => {
-          console.log(element.value);
+          this.UpdateLinks(element.dataset.value);
           document.location.href = element.attributes[1].nodeValue;
         });
       });
     })();
   };
-
+  UpdateLinks(newLinks) {
+    axios
+    .put(`http://localhost:1337/startlinks/1`, {
+      linkspost: newLinks
+    })
+    .then(response => {
+      // Handle success.
+      console.log(
+        'Well done, your post has been successfully updated: ',
+        response.data
+      );
+    })
+    .catch(error => {
+      // Handle error.
+      console.log('An error occurred:', error);
+    });
+    
+  }
   componentDidMount() {
     this.onLoaded();
+
+   
   }
 
   componentDidUpdate = e => {
