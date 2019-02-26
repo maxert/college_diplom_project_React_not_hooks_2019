@@ -287,11 +287,11 @@ class Catalog extends Component {
   componentDidMount() {
     axios
       .all([
+        this.getlinks(),
         this.getVideocard(),
         this.getCatalog(),
         this.getProisvoditel(),
-        this.getbasket(),
-        this.getlinks()
+        this.getbasket()
       ])
       .then(axios.spread(function(massive, perms) {}));
   }
