@@ -5,15 +5,15 @@
       "connector": "strapi-hook-bookshelf",
       "settings": {
         "client": "mysql",
-        "host": "127.0.0.1",
+        "host": "us-cdbr-iron-east-03.cleardb.net",
         "srv": false,
         "port": 3306,
-        "database": "computerDB",
-        "username": "root",
-        "password": "password"
+        "database": "heroku_fc1fe38c7d56a08",
+        "username": "b59140e51d0983",
+        "password": "bb06d21a"
       },
       "options": {
-        "ssl": false,
+        "ssl": true,
         "debug": true
       }
     }

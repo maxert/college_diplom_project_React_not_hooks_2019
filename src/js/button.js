@@ -29,14 +29,17 @@ class DoorUI extends Component {
       svgDocument.forEach(element => {
         element.addEventListener("click", () => {
           this.UpdateLinks(element.dataset.value);
-          document.location.href = element.attributes[1].nodeValue;
+          setTimeout(()=>{
+            document.location.href = element.attributes[1].nodeValue;
+          },30)
+          
         });
       });
     })();
   };
   UpdateLinks(newLinks) {
     axios
-    .put(`http://localhost:1337/startlinks/1`, {
+    .put(`https://collegediplome.herokuapp.com/startlinks/1`, {
       linkspost: newLinks
     })
     .then(response => {

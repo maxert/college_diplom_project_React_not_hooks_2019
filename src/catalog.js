@@ -7,8 +7,8 @@ class Catalog extends Component {
     this.state = {
       massive: [],
       massiveTwo: [],
-      value: "http://localhost:1337/Videos",
-      valueFilter: "http://localhost:1337/Videos",
+      value: "https://collegediplome.herokuapp.com/Videos",
+      valueFilter: "https://collegediplome.herokuapp.com/Videos",
       allText: [],
       checkbox: [],
       ItemsSort: [],
@@ -31,8 +31,8 @@ class Catalog extends Component {
     };
 
     this.sort = {
-      textURl: "http://localhost:1337/Videos",
-      constURL: "http://localhost:1337/Videos",
+      textURl: "https://collegediplome.herokuapp.com/Videos",
+      constURL: "https://collegediplome.herokuapp.com/Videos",
       isFalse: false,
       newMasive: [],
       price: 0
@@ -186,7 +186,7 @@ class Catalog extends Component {
     });
   }
   getlinks() {
-    return axios.get("http://localhost:1337/startlinks/1").then(response => {
+    return axios.get("https://collegediplome.herokuapp.com/startlinks/1").then(response => {
       this.setState({ CatalogLinks: this.getVideocard(response.data.linkspost)});
     });
   }
@@ -196,7 +196,7 @@ class Catalog extends Component {
       this.sort.isFalse = true;
       CatalogLinks = "Videos";
     }
-    return axios.get("http://localhost:1337/" + CatalogLinks).then(response => {
+    return axios.get("https://collegediplome.herokuapp.com/" + CatalogLinks).then(response => {
       this.setState({ massive: response.data });
       this.setState({ massiveTwo: response.data });
       console.log(this.state.massive);
@@ -272,13 +272,13 @@ class Catalog extends Component {
   }
 
   getCatalog() {
-    return axios.get("http://localhost:1337/categories").then(response => {
+    return axios.get("https://collegediplome.herokuapp.com/categories").then(response => {
       this.setState({ Catalog: response.data });
     });
   }
   getProisvoditel() {
     return axios
-      .get("http://localhost:1337/proisvoditenames")
+      .get("https://collegediplome.herokuapp.com/proisvoditenames")
       .then(response => {
         this.setState({ Proisvoditel: response.data });
       });
@@ -314,7 +314,7 @@ class Catalog extends Component {
   }
 
   getbasket() {
-    return axios.get("http://localhost:1337/baskets").then(response => {
+    return axios.get("https://collegediplome.herokuapp.com/baskets").then(response => {
       this.setState({ baskets: response.data });
     });
   }

@@ -73,7 +73,7 @@ class Header extends Component {
             >
               <ul className="navbar-nav d-flex justify-content-around w-100 ml-4 mr-4">
                 <li className="nav-item active">
-                  <Link className="nav-link" exact to="/">
+                  <Link className="nav-link"  to="/">
                     Главная <span className="sr-only">(current)</span>
                   </Link>
                 </li>

@@ -7,7 +7,7 @@ import 'bootstrap/js/dist/util';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Start from './start_container';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Catalog from './catalog';
 import Header from './header';
 import Footer from './footer';
@@ -15,7 +15,7 @@ import About from './about';
 import Contacts from './contacts';
 
 ReactDOM.render(
-  <Router >
+  <BrowserRouter>
     <div className="wrapper">
       <Header />
       <Switch>
@@ -23,11 +23,11 @@ ReactDOM.render(
         <Route path="/catalog" component={Catalog} />
         <Route path="/about" component={About} />
         <Route path="/contacts" component={Contacts} />
-        <Route path="/admin" to="http://localhost:1337/admin" />
+        <Route path="/admin" to="https://collegediplome.herokuapp.com/admin" />
       </Switch>
       <Footer />
     </div>
-  </Router>,
+  </BrowserRouter>,
   document.getElementById('root')
 );
 

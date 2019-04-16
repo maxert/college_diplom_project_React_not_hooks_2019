@@ -15,7 +15,7 @@ class Contacts extends Component {
     axios.all([this.getText()]).then(axios.spread(function(massive, perms) {}));
   }
   getText() {
-    return axios.get(`http://localhost:1337/blockeds?id=4`).then(response => {
+    return axios.get(`https://collegediplome.herokuapp.com/blockeds?id=4`).then(response => {
       this.setState({ massive: response.data });
     });
   }

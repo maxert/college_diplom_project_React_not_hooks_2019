@@ -15,7 +15,7 @@ class Start extends Component {
   }
   componentDidMount() {
     axios
-      .get(`http://localhost:1337/blockeds?id=1`)
+      .get(`https://collegediplome.herokuapp.com/blockeds?id=1`)
       .then(response => {
         // Handle success.
         this.setState({ masive: response.data });

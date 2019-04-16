@@ -12,7 +12,7 @@ class About extends Component {
     axios.all([this.getText()]).then(axios.spread(function(massive, perms) {}));
   }
   getText() {
-    return axios.get(`http://localhost:1337/blockeds?id=3`).then(response => {
+    return axios.get(`https://collegediplome.herokuapp.com/blockeds?id=3`).then(response => {
       this.setState({ massive: response.data });
     });
   }
