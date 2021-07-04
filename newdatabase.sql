@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `computerdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
+REATE DATABASE  IF NOT EXISTS `computerdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 USE `computerdb`;
 -- MySQL dump 10.13  Distrib 8.0.13, for Win64 (x86_64)
 --
