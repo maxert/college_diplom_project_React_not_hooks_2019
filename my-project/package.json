@@ -26,7 +26,7 @@
     "mysql": "2.16.0",
     "react": "^15.6.2",
     "react-ga": "^2.5.7",
-    "strapi": "^3.0.0-alpha.23.1",
+    "strapi": "^3.2.5",
     "strapi-hook-bookshelf": "^3.0.0-alpha.21",
     "strapi-hook-knex": "3.0.0-alpha.16"
   },
