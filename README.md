@@ -5,12 +5,13 @@
   - [npm test](#npm-test)
   - [npm run build](#npm-run-build)
   - [npm run eject](#npm-run-eject)
-  
-Чтобы загрузить все модули нужнно ввести такую команнду:<br>
+
+##Чтобы загрузить все модули нужнно ввести такую команнду:
+
 ### `npm install`
 
 
-## Available Scripts
+## Доступные скрипты
 В каталоге проекта вы можете запустить:
 ### `npm start`
 
