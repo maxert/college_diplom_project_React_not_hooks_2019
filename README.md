@@ -1,6 +1,6 @@
 Интернет магазин на React без HOOKS только классовые компоненты<br>
 Для запуска нужно использовать дальнейшие инструкции:
-- [Available Scripts](#available-scripts)
+- [Доступные скрипты](#available-scripts)
   - [npm start](#npm-start)
   - [npm test](#npm-test)
   - [npm run build](#npm-run-build)
