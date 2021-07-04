@@ -6,11 +6,12 @@
   - [npm run build](#npm-run-build)
   - [npm run eject](#npm-run-eject)
   
+Чтобы загрузить все модули нужнно ввести такую команнду:<br>
+### `npm install`
+
 
 ## Available Scripts
-
 В каталоге проекта вы можете запустить:
-
 ### `npm start`
 
 Запускает приложение в режиме разработки.<br>
