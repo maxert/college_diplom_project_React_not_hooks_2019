@@ -22,7 +22,7 @@
     "bookshelf": "^0.12.1",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "knex": "^0.15.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "mysql": "2.16.0",
     "react": "^15.6.2",
     "react-ga": "^2.5.7",
